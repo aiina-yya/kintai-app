@@ -8,10 +8,14 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('/css/reset.css) }}">
     <link rel="stylesheet" href="{{ asset('/css/common.css) }}">
+    <link rel="stylesheet" href="{{ asset('/css/admin/components/header.css }}">
     @yield('css')
 </head>
 
 <body>
-    @yield('content')
+    @include('admin/components/header')
+    <main>
+        @yield('content')
+    </main>
 </body>
 </html>

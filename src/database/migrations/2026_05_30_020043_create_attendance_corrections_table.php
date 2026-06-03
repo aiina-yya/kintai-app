@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttendancesCorrectionsTable extends Migration
+class CreateAttendanceCorrectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAttendancesCorrectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendances_corrections', function (Blueprint $table) {
+        Schema::create('attendance_corrections', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateAttendancesCorrectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendances_corrections');
+        Schema::dropIfExists('attendance_corrections');
     }
 }
