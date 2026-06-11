@@ -5,6 +5,8 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceCorrectionController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +19,7 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth', 'verified')->group(function(){
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
     Route::post('/attendance/clock-in',[AttendanceController::class, 'clockIn'])->name('attendance.clockIn');
     Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clockOut');
@@ -38,3 +40,19 @@ Route::middleware('auth:admin')->group(function() {
     Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
     Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/attendance');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back();
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

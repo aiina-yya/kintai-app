@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use App\Http\Responses\LogoutResponse;
+use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -20,7 +22,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(
+            LogoutResponseContract::class,
+            LogoutResponse::class
+        );
     }
 
     /**
@@ -34,6 +39,9 @@ class FortifyServiceProvider extends ServiceProvider
         });
         Fortify::loginView(function () {
             return view('auth.login');
+        });
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
         });
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
