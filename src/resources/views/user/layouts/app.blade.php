@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('/css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/common.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/user/components/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/components/header.css') }}">
     @yield('css')
 </head>
 

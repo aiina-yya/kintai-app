@@ -1,6 +1,12 @@
+body {
+    margin: 0;
+}
+
 .header {
+    width: 100%;
     background-color: #000000;
-    padding: 10px;
+    padding: 10px 30px;
+    box-sizing: border-box;
 }
 
 .header__inner {
@@ -9,20 +15,12 @@
     justify-content: space-between;
 }
 
-.header-heading {
-    margin: 0;
-    flex: 1;
-}
-
-.header-heading__img {
+.header__logo img {
     width: 250px;
     display: block;
 }
-.header-heading__nav {
-    flex: 1;
-}
 
-.header-heading__nav-list {
+.header__nav ul {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -32,8 +30,8 @@
     padding: 0;
 }
 
-.header-heading__nav-content a,
-.header-heading__nav-content input[type="submit"] {
+.header__nav a,
+.header__logout {
     color: #fff;
     text-decoration: none;
     font-size: 16px;

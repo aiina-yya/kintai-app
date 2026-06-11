@@ -18,7 +18,7 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::middleware('auth')->group(function(){
-    Route::get('/attendance', [AdminController::class, 'index'])->name('attendance');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
     Route::post('/attendance/clock-in',[AttendanceController::class, 'clockIn'])->name('attendance.clockIn');
     Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clockOut');
     Route::post('/attendance/break-start', [AttendanceController::class, 'breakStart'])->name('attendance.breakStart');

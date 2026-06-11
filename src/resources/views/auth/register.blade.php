@@ -10,7 +10,7 @@
 <div class="register-form">
     <h2 class="register-form__heading content__heading">会員登録</h2>
     <div class="register-form__inner">
-        <form class="register-form__form"  action="/register" method="post" novalidate>
+        <form class="register-form__form"  action="{{ route('register') }}" method="post" novalidate>
             @csrf
             <div class="register-form__group">
                 <label class="register-form__label"  for="user-name">ユーザー名</label>

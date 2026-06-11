@@ -1,6 +1,6 @@
-@extends('user.layout.app')
+@extends('user.layouts.app')
 
-@('title','勤怠登録画面')
+@section('title','勤怠登録画面')
 
 @section('css')
 <link rel="stylesheet" href="css/attendance.css">
@@ -8,12 +8,13 @@
 
 @section('content')
 <div class="attendance">
-    <div class="attendance__status">勤務外</div>
+    <p class="attendance__status">{{ $status }}</p>
     <div class="attendance__datetime">
         @php
         $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+        @endphp
         <p class="attendance__date">
-            {{ now()->isoFormat('Y年n月j日') }}({{ $weekdays[now()->dayOfWeek] }})
+            {{ now()->isoFormat('Y年M月D日') }}({{ $weekdays[now()->dayOfWeek] }})
         </p>
         <p class="attendance__time">
             {{ now()->format('H:i') }}
@@ -21,8 +22,9 @@
     </div>
 
     <div class="attendance__actions">
-        @if('$status === '勤務外')
-        <form action="{{ route('attendance.clockIn) }}" method="post">
+        
+        @if($status === '勤務外')
+        <form action="{{ route('attendance.clockIn') }}" method="post">
             @csrf
             <button class="attendance__btn" type="submit">
             出勤
@@ -46,7 +48,7 @@
         @elseif($status === '休憩中')
         <form action="{{ route('attendance.breakEnd') }}" method="post">
             @csrf
-            <button class="attendance__btn-break">
+            <button class="attendance__btn-break" type="submit">
             休憩戻
             </button>
         </form>
