@@ -23,15 +23,28 @@
 
     <div class="attendance__actions">
         
-        @if($status === '勤務外')
+        @if(!$attendance)
         <form action="{{ route('attendance.clockIn') }}" method="post">
             @csrf
             <button class="attendance__btn" type="submit">
             出勤
             </button>
         </form>
+
+        @elseif($attendance->clock_out)
+        <p class="attendance__message">
+            お疲れ様でした。
+        </p>
+
+        @elseif($attendanceBreak && is_null($attendanceBreak->break_end))
+        <form action="{{ route('attendance.breakEnd') }}" method="post">
+            @csrf
+            <button class="attendance__btn-break" type="submit">
+            休憩戻
+            </button>
+        </form>
         
-        @elseif($status === '出勤中')
+        @else
         <form action="{{ route('attendance.clockOut') }}" method="post">
             @csrf
             <button class="attendance__btn" type="submit">
@@ -44,19 +57,6 @@
             休憩入
             </button>
         </form>
-
-        @elseif($status === '休憩中')
-        <form action="{{ route('attendance.breakEnd') }}" method="post">
-            @csrf
-            <button class="attendance__btn-break" type="submit">
-            休憩戻
-            </button>
-        </form>
-
-        @elseif($status === '退勤済')
-        <p class="attendance__message">
-            お疲れ様でした。
-        </p>
         @endif
     </div>    
 </div>

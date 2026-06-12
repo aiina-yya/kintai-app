@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Attendance;
 
 class AttendanceBreak extends Model
 {
@@ -11,4 +12,15 @@ class AttendanceBreak extends Model
     {
         return $this->belongsTo(Attendance::class);
     }
+
+    protected $fillable = [
+        'attendance_id',
+        'break_start',
+        'break_end'
+    ];
+
+    protected $casts = [
+        'break_start' => 'datetime',
+        'break_end' => 'datetime',
+    ];
 }

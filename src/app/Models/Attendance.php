@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\AttendanceBreak;
+use App\Models\AttendanceCorrection;
 
 class Attendance extends Model
 {
@@ -27,5 +30,10 @@ class Attendance extends Model
         'work_date',
         'clock_in',
         'clock_out',
+    ];
+
+    protected $casts = [
+        'clock_in' => 'datetime',
+        'clock_out' => 'datetime',
     ];
 }

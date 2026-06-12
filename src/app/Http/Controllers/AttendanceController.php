@@ -15,24 +15,28 @@ class AttendanceController extends Controller
         ->where('work_date', today())
         ->first();
 
+        $attendanceBreak = null;
+        
+        if ($attendance) {
+            $attendanceBreak = AttendanceBreak::where('attendance_id', $attendance->id)
+        ->latest()
+        ->first();
+        }
+
         if (!$attendance) {
             $status = '勤務外';
         } elseif ($attendance->clock_out) {
             $status = '退勤済';
+        } elseif ($attendanceBreak && is_null($attendanceBreak->break_end)) {
+            $status = '休憩中';
         } else {
-            $break = AttendanceBreak::where('attendance_id', $attendance->id)
-            ->whereNull('break_end')
-            ->first();
-
-            if($break) {
-                $status = '休憩中';
-            } else {
-                $status = '出勤中';
-            }
+            $status = '出勤中';
         }
 
-        return view('user.attendance', compact('status', 'attendance'));
+            return view('user.attendance', compact('status', 'attendance', 'attendanceBreak'));
     }
+
+    
 
     public function clockIn()
     {
@@ -58,9 +62,30 @@ class AttendanceController extends Controller
         ->first();
 
         if($attendance && !$attendance->clock_out) {
-            $attendance->update([
-                'clock_out' => now(),
-            ]);
+            
+                $clockOut = now();
+
+                $breaks = AttendanceBreak::where(
+                    'attendance_id', $attendance->id
+                )->get();
+
+                $totalBreakMinutes = 0;
+
+                foreach ($breaks as $break) {
+                    if ($break->break_end) {
+                        $totalBreakMinutes +=
+                        $break->break_end->diffInMinutes(
+                            $break->break_start
+                        );
+                    }
+                }
+
+                $workMinutes = $clockOut->diffInMinutes($attendance->clock_in) - $totalBreakMinutes;
+
+                $attendance->update([
+                    'clock_out' => $clockOut,
+                    'work_minutes' => $workMinutes
+                ]);
         }
 
         return redirect()->route('attendance');
@@ -68,16 +93,47 @@ class AttendanceController extends Controller
 
     public function breakStart()
     {
+        $attendance = Attendance::where('user_id',Auth::id())
+        ->where('work_date', today())
+        ->first();
+
+        if(!$attendance) {
+            return redirect()->route('attendance');
+        }
+
+        AttendanceBreak::create([
+            'attendance_id' => $attendance->id,
+            'break_start' => now(),
+        ]);
+
+        return redirect()->route('attendance');
 
     }
 
     public function breakEnd()
     {
+        $attendance = Attendance::where('user_id', Auth::id())
+        ->where('work_date', today())
+        ->first();
+
+        $break = AttendanceBreak::where('attendance_id', $attendance->id)
+        ->whereNull('break_end')
+        ->latest()
+        ->first();
+
+        if($break) {
+            $break->update([
+                'break_end' => now(),
+            ]);
+        }
+
+        return redirect()->route('attendance');
 
     }
 
     public function attendanceList()
     {
+
 
     }
 
