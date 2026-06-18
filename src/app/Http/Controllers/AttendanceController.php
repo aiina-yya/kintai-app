@@ -133,6 +133,18 @@ class AttendanceController extends Controller
 
     public function attendanceList()
     {
+        $year = request('year', now()->year);
+        $month = request('month', now()->month);
+
+        $attendances = Attendance::with('breaks')
+        ->where('user_id', Auth::id())
+        ->whereYear('work_date', $year)
+        ->whereMonth('work_date', $month)
+        ->orderBy('work_date', 'desc')
+        ->get();
+
+        return view('user.attendance_list', compact('attendances', 'year', 'month'));
+
 
 
     }

@@ -20,6 +20,19 @@ class Attendance extends Model
         return $this->hasMany(AttendanceBreak::class);
     }
 
+    public function getBreakMinutesAttribute()
+    {
+        $total = 0;
+
+        foreach ($this->breaks as $break) {
+            if ($break->break_end) {
+                $total += $break->break_end->diffInMinutes($break->break_start);
+            }
+        }
+
+        return $total;
+    }
+
     public function corrections()
     {
         return $this->hasMany(AttendanceCorrection::class);

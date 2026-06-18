@@ -12,7 +12,7 @@
                     <a href="#">勤怠</a>
                 </li>
                 <li>
-                    <a href="#">勤怠一覧</a>
+                    <a href="{{ route('attendance.list') }}">勤怠一覧</a>
                 </li>
                 <li>
                     <a href="#">申請</a>
