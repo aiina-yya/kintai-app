@@ -59,7 +59,7 @@
 
                         <td>{{ $attendance->work_minutes }}</td>
 
-                        <td><a href="#">詳細</a></td>
+                        <td><a href="{{ route('attendance.detail', $attendance->id) }}">詳細</a></td>
                     </tr>
                     @endforeach
                 </tbody>

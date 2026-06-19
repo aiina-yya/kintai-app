@@ -26,8 +26,8 @@ Route::middleware(['auth','verified'])->group(function(){
     Route::post('/attendance/break-start', [AttendanceController::class, 'breakStart'])->name('attendance.breakStart');
     Route::post('/attendance/break-end', [AttendanceController::class, 'breakEnd'])->name('attendance.breakEnd');
     Route::get('/attendance/list', [AttendanceController::class, 'attendanceList'])->name('attendance.list');
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'attendanceDetail'])->name('attendance.detail');
-    Route::post('/attendance/detail/{id}', [AttendanceCorrectionController::class, 'store'])->name('attendance.correction');
+    Route::get('/attendance/detail/{attendance}', [AttendanceController::class, 'attendanceDetail'])->name('attendance.detail');
+    Route::post('/attendance/detail/{attendance}', [AttendanceCorrectionController::class, 'store'])->name('attendance.correction');
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'show'])->name('correction.list');
 });
 

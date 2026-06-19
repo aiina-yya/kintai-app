@@ -145,12 +145,14 @@ class AttendanceController extends Controller
 
         return view('user.attendance_list', compact('attendances', 'year', 'month'));
 
-
-
     }
 
-    public function attendanceDetail()
+    public function attendanceDetail(Attendance $attendance)
     {
+        $attendance->load('user', 'breaks');
+
+        return view('user.attendance_detail', compact('attendance'));
+
 
     }
 
