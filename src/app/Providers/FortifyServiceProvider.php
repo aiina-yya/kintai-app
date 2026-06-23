@@ -14,6 +14,11 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use App\Http\Responses\LogoutResponse;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -47,6 +52,27 @@ class FortifyServiceProvider extends ServiceProvider
             $email = (string) $request->email;
 
             return Limit::perMinute(10)->by($email . $request->ip());
+        });
+        Fortify::authenticateUsing(function ($request) {
+
+        Validator::make(
+            $request->all(),
+            (new LoginRequest())->rules(),
+            (new LoginRequest())->messages()
+        )->validate();
+
+        $user = User::where('email', $request->email)->first();
+
+        if (
+            $user &&
+            Hash::check($request->password, $user->password)
+        ) {
+            return $user;
+        }
+
+        throw ValidationException::withMessages([
+            'email' => ['ログイン情報が登録されていません'],
+        ]);
         });
     }
 }

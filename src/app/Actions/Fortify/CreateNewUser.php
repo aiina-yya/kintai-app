@@ -23,9 +23,9 @@ class CreateNewUser implements CreatesNewUsers
         $request = app(RegisterRequest::class);
 
         Validator::make(
-            $input, 
-            $request->rules(),
-            $request->messages()
+            $input,
+            (new RegisterRequest())->rules(),
+            (new RegisterRequest())->messages()
         )->validate();
 
         return User::create([

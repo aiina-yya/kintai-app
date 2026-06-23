@@ -1,0 +1,133 @@
+.attendance-detail {
+    background-color: #eeebeb;
+    min-height: 100vh;
+    padding: 50px 0;
+}
+
+.attendance-detail__container {
+    width: 900px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.attendance-detail__title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.attendance-detail__title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 6px;
+    height: 36px;
+
+    background-color: #000;
+    border-radius: 3px;
+}
+
+.attendance-detail__content {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.attendance-detail__row {
+    display: flex;
+    align-items: center;
+
+    padding: 18px 30px;
+
+    border-bottom: 1px solid #eeebeb;
+}
+
+.attendance-detail__label {
+    width: 180px;
+    font-weight: bold;
+    font-size: 16px;
+
+    color: #666;
+}
+
+.attendance-detail__input[readonly] {
+    border: none;
+    background: transparent;
+
+    font-weight: bold;
+    font-size: 16px;
+
+    padding: 0;
+}
+
+.attendance-detail__input {
+    width: 80px;
+    height: 28px;
+
+    padding: 0 8px;
+
+    text-align: center;
+
+    font-weight: 700;
+    font-size: 16px;
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator{
+    display: none;
+}
+
+input[type="time"] {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+
+.attendance-detail__times {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.attendance-detail__textarea {
+    width: 230px;
+    min-height: 60px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    resize: none;
+    font-weight: bold;
+}
+
+.attendance-detail__button {
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.attendance-detail__btn {
+    width: 120px;
+    height: 40px;
+
+    background-color: #000;
+    color: #fff;
+
+    border: none;
+    border-radius: 5px;
+
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.attendance-detail__btn:hover {
+    opacity: 0.9;
+}
