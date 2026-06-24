@@ -6,19 +6,14 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-use App\Http\Responses\LogoutResponse;
-use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
-use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -27,10 +22,12 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(
-            LogoutResponseContract::class,
-            LogoutResponse::class
-        );
+        $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
+            public function toResponse($request)
+            {
+                return redirect('/mypage/profile');
+            }
+        });
     }
 
     /**
@@ -40,39 +37,19 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::registerView(function () {
-            return view('auth.register');
+                return view('auth.register');
         });
+
         Fortify::loginView(function () {
             return view('auth.login');
         });
-        Fortify::verifyEmailView(function () {
-            return view('auth.verify-email');
-        });
+
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
 
             return Limit::perMinute(10)->by($email . $request->ip());
         });
-        Fortify::authenticateUsing(function ($request) {
 
-        Validator::make(
-            $request->all(),
-            (new LoginRequest())->rules(),
-            (new LoginRequest())->messages()
-        )->validate();
-
-        $user = User::where('email', $request->email)->first();
-
-        if (
-            $user &&
-            Hash::check($request->password, $user->password)
-        ) {
-            return $user;
-        }
-
-        throw ValidationException::withMessages([
-            'email' => ['ログイン情報が登録されていません'],
-        ]);
-        });
+        app()->bind(FortifyLoginRequest::class, LoginRequest::class);
     }
 }
