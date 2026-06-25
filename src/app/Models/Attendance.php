@@ -33,9 +33,16 @@ class Attendance extends Model
         return $total;
     }
 
-    public function corrections()
+    public function correctionFRequests()
     {
         return $this->hasMany(AttendanceCorrection::class);
+    }
+
+    public function hasPendingCorrection()
+    {
+        return $this->correctionRequests()
+        ->where('status', 'pending')
+        ->exists();
     }
 
     protected $fillable = [

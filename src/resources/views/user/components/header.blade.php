@@ -15,7 +15,7 @@
                     <a href="{{ route('attendance.list') }}">勤怠一覧</a>
                 </li>
                 <li>
-                    <a href="#">申請</a>
+                    <a href="{{ route('correction.list') }">申請</a>
                 </li>
                 <li>
                     <form action="{{ route('logout') }}" method="post">

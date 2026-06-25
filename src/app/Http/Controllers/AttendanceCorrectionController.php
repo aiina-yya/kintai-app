@@ -10,7 +10,7 @@ class AttendanceCorrectionController extends Controller
 {
     public function show()
     {
-        $requests = AttendanceCorrection::where('user_id', auth()->id())
+        $requests = AttendanceCorrection::with(['attendance.user'])
         ->latest()
         ->get();
 

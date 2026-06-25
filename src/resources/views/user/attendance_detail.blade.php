@@ -71,7 +71,13 @@
             </div>
 
             <div class="attendance-detail__button">
+                @if($attendance->hasPendingCorrection())
+                <p class="attendance-detail__pending-message">
+                    ＊承認待ちのため修正はできません。
+                </p>
+                @else
                 <button class="attendance-detail__btn" type="submit">修正</button>
+                @endif
             </div>
         </form>
     </div>
