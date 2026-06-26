@@ -36,7 +36,7 @@ Route::middleware('auth:admin')->group(function() {
     Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
     Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
     Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
-    Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');
+    //Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');
     Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
     Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
 });

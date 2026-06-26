@@ -16,12 +16,12 @@ class AttendanceController extends Controller
         ->first();
 
         $attendanceBreak = null;
-        
+
         if ($attendance) {
             $attendanceBreak = AttendanceBreak::where('attendance_id', $attendance->id)
-        ->latest()
-        ->first();
-        }
+            ->latest()
+            ->first();
+            }
 
         if (!$attendance) {
             $status = '勤務外';
@@ -35,8 +35,6 @@ class AttendanceController extends Controller
 
             return view('user.attendance', compact('status', 'attendance', 'attendanceBreak'));
     }
-
-    
 
     public function clockIn()
     {
@@ -62,7 +60,7 @@ class AttendanceController extends Controller
         ->first();
 
         if($attendance && !$attendance->clock_out) {
-            
+
                 $clockOut = now();
 
                 $breaks = AttendanceBreak::where(
@@ -158,6 +156,6 @@ class AttendanceController extends Controller
 
     public function correctionStore()
     {
-        
+
     }
 }

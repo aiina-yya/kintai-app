@@ -21,11 +21,10 @@ class AttendanceCorrectionController extends Controller
     {
         AttendanceCorrection::create([
             'attendance_id' => $attendance->id,
-            'user_id' => auth()->id(),
-            'clock_in' => $request->clock_in,
-            'clock_out' => $request->clock_out,
+            'requested_clock_in' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_in,
+            'requested_clock_out' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_out,
             'reason' => $request->reason,
-            'status' => 'pending',
+            'is_approved' => false,
         ]);
 
         return redirect()->route('attendance.list');

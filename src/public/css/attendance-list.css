@@ -13,22 +13,8 @@
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 40px;
-    padding-left: 20px;
-    position: relative;
-}
-
-.attendance-list__title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-
-    width: 6px;
-    height: 36px;
-
-    background-color: #000;
-    border-radius: 3px;
+    padding-left: 16px;
+    border-left: 6px solid #000;
 }
 
 .attendance-list__header {

@@ -30,11 +30,11 @@
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">出勤・退勤</label>
                     <div class="attendance-detail__times">
-                        <input class="attendance-detail__input" type="text" name="clock_in" value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                        <input class="attendance-detail__input" type="time" name="clock_in" value="{{ optional($attendance->clock_in)->format('H:i') }}">
 
                         <span>～</span>
 
-                        <input class="attendance-detail__input" type="text" name="clock_out" value="{{ optional($attendance->clock_out)->format('H:i') }}">
+                        <input class="attendance-detail__input" type="time" name="clock_out" value="{{ optional($attendance->clock_out)->format('H:i') }}">
                     </div>
                 </div>
                 @foreach($attendance->breaks as $index => $break)
@@ -44,11 +44,11 @@
                     <input type="hidden" name="break_ids[]" value="{{ $break->id }}">
 
                     <div class="attendance-detail__times">
-                    <input class="attendance-detail__input" type="text" name="break_start[]" value="{{ optional($break->break_start)->format('H:i') }}">
+                    <input class="attendance-detail__input" type="time" name="break_start[]" value="{{ optional($break->break_start)->format('H:i') }}">
 
                     <span>～</span>
 
-                    <input class="attendance-detail__input" type="text" name="break_end[]" value="{{ optional($break->break_end)->format('H:i') }}">
+                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{ optional($break->break_end)->format('H:i') }}">
                     </div>
                 </div>
                 @endforeach
@@ -56,11 +56,11 @@
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">休憩{{ $attendance->breaks->count() + 1 }}</label>
                     <div class="attendance-detail__times">
-                        <input class="attendance-detail__input" type="text">
+                        <input class="attendance-detail__input" type="time">
 
                         <span>～</span>
 
-                        <input class="attendance-detail__input" type="text">
+                        <input class="attendance-detail__input" type="time">
                     </div>
                 </div>
 
