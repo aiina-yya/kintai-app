@@ -11,8 +11,8 @@
     <div class="request-list__container">
         <h1 class="request-list__title">申請一覧</h1>
         <div class="request-list__tabs">
-            <a class="request-list__tab" href="">承認待ち</a>
-            <a class="request-list__tab" href="">承認済み</a>
+            <a class="request-list__tab {{ $status == 'pending' ? 'is-active' : '' }}" href="{{ route('correction.list' , ['status' => 'pending']) }}">承認待ち</a>
+            <a class="request-list__tab {{ $status == 'approved' ? 'is-active' : '' }}" href="{{ route('correction.list', ['status' => 'approved']) }}">承認済み</a>
         </div>
 
         <table class="request-list__table">
@@ -30,7 +30,7 @@
             <tbody class="request-list__body">
                 @foreach($requests as $request)
                 <tr>
-                    <td>{{ $request->status === 'pending' ? '承認待ち' : '承認済み' }}</td>
+                    <td>{{ $request->is_approved ? '承認待ち' : '承認済み' }}</td>
                     <td>{{ $request->attendance->user->name }}</td>
                     <td>{{ $request->attendance->work_date }}</td>
                     <td>{{ $request->reason }}</td>

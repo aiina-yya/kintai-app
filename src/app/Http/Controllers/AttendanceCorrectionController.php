@@ -8,13 +8,21 @@ use App\Models\AttendanceCorrection;
 
 class AttendanceCorrectionController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        $requests = AttendanceCorrection::with(['attendance.user'])
+        $status = $request->query('status' , 'pending');
+
+        $requests = AttendanceCorrection::with('attendance.user')
+        ->whereHas('attendance', function ($query) {
+            $query->where('user_id', auth()->id());
+        })
+        ->when($status === 'pending', function ($query) {
+            $query->where('is_approved', true);
+        })
         ->latest()
         ->get();
 
-        return view('user.correction_request_list', compact('requests'));
+        return view('user.correction_request_list', compact('requests', 'status'));
     }
 
     public function store(Request $request, Attendance $attendance)
