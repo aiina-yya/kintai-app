@@ -7,7 +7,6 @@ use App\Http\Controllers\AttendanceCorrectionController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,12 +30,23 @@ Route::middleware(['auth','verified'])->group(function(){
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'show'])->name('correction.list');
 });
 
-Route::middleware('auth:admin')->group(function() {
-    Route::get('admin/attendance/list', [AdminController::class, 'attendanceList'])->name('admin.attendance.list');
-    Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
-    Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
-    Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
-    //Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');
-    Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
-    Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
+Route::middleware('guest:admin')
+    ->group(function () {
+
+        Route::get('/admin/login', [AuthenticatedSessionController::class, 'create'])
+            ->name('admin.login');
+
+        Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
+    });
+
+Route::middleware('auth:admin')
+    ->group(function (){
+        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+        Route::get('admin/attendance/list', [AdminController::class, 'attendanceList'])->name('admin.attendance.list');
+        Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
+        Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
+        Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
+        //Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');
+        Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
+        Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
 });
