@@ -9,19 +9,19 @@
 @section('content')
 <div class="attendance-list">
     <div class="attendance-list__container">
-        <h1 class="attendance-list__title">勤怠一覧</h1>
+        <h1 class="attendance-list__title">{{ $date->format('Y年n月j日') }}の勤怠</h1>
         <div class="attendance-list__header">
-            <a class="attendance-list__nav" href="?year={{ $month == 1 ? $year - 1 : $year }}&month={{ $month == 1 ? 12 : $month - 1 }}">
-            ←前月
+            <a class="attendance-list__nav" href="{{ route('admin.attendance.list', ['date' => $date->copy()->subDay()->toDateString()]) }}">
+            ←前日
             </a>
 
             <div class="attendance-list__month">
                 <i class="fa-regular fa-calendar"></i>
-                {{ $year }}/{{ $month }}
+                {{ $date->format('Y/m/d') }}
             </div>
 
-            <a class="attendance-list__nav" href="?year={{ $month == 12 ? $year + 1 : $year }}&month={{ $month == 12 ? 1 : $month + 1 }}">
-            →翌月
+            <a class="attendance-list__nav" href="{{ route('admin.attendance.list', ['date' => $date->copy()->addDay()->toDateString()]) }}">
+            →翌日
             </a>
         </div>
 
@@ -29,7 +29,7 @@
             <table class="attendance-list__table">
                 <thead>
                     <tr>
-                        <th>日付</th>
+                        <th>名前</th>
                         <th>出勤</th>
                         <th>退勤</th>
                         <th>休憩</th>
@@ -40,26 +40,22 @@
 
                 <tbody> @foreach($attendances as $attendance)
                     <tr>
-                        <td>{{ $attendance->work_date->format('Y/m/d') }}</td>
+                        <td>{{ $attendance->user->name }}</td>
                         <td>{{ optional($attendance->clock_in)->format('H:i') }}</td>
                         <td>{{ optional($attendance->clock_out)->format('H:i') }}</td>
 
                         <td>
                         @php
-                        $breakMinutes = 0;
-                        foreach ($attendance->breaks as $break) {
-                        if ($break->break_end) {
-                            $breakMinutes += $break->break_end->diffInMinutes($break->break_start);
-                            }
-                        }
+                        $hours = floor($attendance->break_minutes / 60);
+                        $minutes = $attendance->break_minutes % 60;
                         @endphp
 
-                        {{ floor($breakMinutes / 60) }}:{{ sprintf('%02d', $breakMinutes % 60) }}
+                        {{ sprintf('%02d:%02d', $hours, $minutes)}}
                         </td>
 
                         <td>{{ $attendance->work_minutes }}</td>
 
-                        <td><a href="{{ route('attendance.detail', $attendance->id) }}">詳細</a></td>
+                        <td><a href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a></td>
                     </tr>
                     @endforeach
                 </tbody>
