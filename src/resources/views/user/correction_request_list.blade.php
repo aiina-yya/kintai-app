@@ -30,7 +30,7 @@
             <tbody class="request-list__body">
                 @foreach($requests as $request)
                 <tr>
-                    <td>{{ $request->is_approved ? '承認待ち' : '承認済み' }}</td>
+                    <td>{{ $request->is_approved ? '承認済み' : '承認待ち' }}</td>
                     <td>{{ $request->attendance->user->name }}</td>
                     <td>{{ $request->attendance->work_date }}</td>
                     <td>{{ $request->reason }}</td>

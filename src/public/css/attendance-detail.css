@@ -5,9 +5,11 @@
 }
 
 .attendance-detail__container {
-    width: 900px;
-    max-width: 90%;
+    max-width: 900px;
+    width: 100%;
+    padding: 0 20px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .attendance-detail__title {
@@ -97,7 +99,7 @@ input[type="time"] {
 }
 
 .attendance-detail__textarea {
-    width: 230px;
+    width: 350px;
     min-height: 60px;
     padding: 8px;
     border: 1px solid #ddd;
@@ -130,4 +132,35 @@ input[type="time"] {
 
 .attendance-detail__btn:hover {
     opacity: 0.9;
+}
+
+.attendance-detail__pending-message {
+    margin-top: 20px;
+    text-align: right;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 850px) {
+
+    .attendance-detail__title {
+        font-size: 24px;
+    }
+
+    .attendance-detail__row {
+        padding: 16px 20px;
+    }
+
+    .attendance-detail__label {
+        width: 140px;
+        font-size: 15px;
+    }
+
+    .attendance-detail__times {
+        gap: 20px;
+    }
+
+    .attendance-detail__textarea {
+        width: 300px;
+    }
 }

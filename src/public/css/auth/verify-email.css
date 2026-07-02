@@ -32,3 +32,15 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+@media screen and (max-width: 850px) {
+
+    .verify-email {
+        margin: 60px auto;
+    }
+
+    .verify-email__message{
+        font-size: 14px;
+    }
+
+}

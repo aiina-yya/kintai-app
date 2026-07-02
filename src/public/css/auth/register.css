@@ -66,28 +66,13 @@
     color: #0000ff;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 850px) {
     .register-form {
-        margin: 50px auto;
-        padding: 0 16px;
+        margin: 60px auto;
     }
 
     .register-form__heading {
-        font-size: 28px;
-        margin-bottom: 40px;
-    }
-
-    .register-form__input,
-    .register-form__btn {
-        height: 44px;
-        font-size: 16px;
-    }
-
-    .register-form__label {
-        font-size: 14px;
-    }
-
-    .register-form__link {
-        font-size: 14px;
+        font-size: 32px;
+        margin-bottom: 50px;
     }
 }
