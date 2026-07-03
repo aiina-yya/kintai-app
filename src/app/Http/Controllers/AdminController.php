@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -39,7 +40,7 @@ class AdminController extends Controller
     {
         $users = User::all();
 
-        return view('admin.staff-list', compact('users'));
+        return view('admin.staff_list', compact('users'));
 
     }
 

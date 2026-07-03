@@ -9,10 +9,10 @@
             <ul>
             @if(Auth::check())
                 <li>
-                    <a href="#">勤怠一覧</a>
+                    <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
                 </li>
                 <li>
-                    <a href="#">スタッフ一覧</a>
+                    <a href="{{ route('admin.staff') }}">スタッフ一覧</a>
                 </li>
                 <li>
                     <a href="#">申請一覧</a>
