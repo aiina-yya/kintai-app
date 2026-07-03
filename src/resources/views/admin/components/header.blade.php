@@ -18,7 +18,7 @@
                     <a href="#">申請一覧</a>
                 </li>
                 <li>
-                    <form action="{{ route('logout') }}" method="post">
+                    <form action="{{ route('admin.logout') }}" method="post">
                     @csrf
                         <button class="header__logout">ログアウト</button>
                     </form>

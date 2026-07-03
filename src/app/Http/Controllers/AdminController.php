@@ -20,18 +20,26 @@ class AdminController extends Controller
 
     }
 
-    public function attendanceDetail()
+    public function attendanceDetail(Attendance $attendance)
     {
+        $attendance->load([
+            'user',
+            'breaks',
+            'correctionRequest',
+        ]);
 
+        return view('admin.attendance-detail', compact('attendance'));
     }
 
     public function attendanceUpdate()
     {
-        
     }
 
-    public function staffLIst()
+    public function staffList()
     {
+        $users = User::all();
+
+        return view('admin.staff-list', compact('users'));
 
     }
 

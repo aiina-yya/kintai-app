@@ -41,9 +41,10 @@ Route::middleware('guest:admin')
 
 Route::middleware('auth:admin')
     ->group(function (){
-        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
         Route::get('admin/attendance/list', [AdminController::class, 'attendanceList'])->name('admin.attendance.list');
         Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
+        Route::patch('/admin/attendance/{attendance}', [AdminController::class, 'updateAttendance'])->name('admin.attendance.update');
         Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
         Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
         //Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');

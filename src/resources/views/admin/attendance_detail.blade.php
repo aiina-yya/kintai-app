@@ -11,7 +11,7 @@
     <div class="attendance-detail__container">
 
         <h1 class="attendance-detail__title">勤怠詳細</h1>
-        <form action="{{ route('attendance.correction', $attendance) }}" method="post">
+        <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="post">
             @csrf
             <div class="attendance-detail__content">
 
@@ -71,13 +71,7 @@
             </div>
 
             <div class="attendance-detail__button">
-                @if($attendance->hasPendingCorrection())
-                <p class="attendance-detail__pending-message">
-                    ＊承認待ちのため修正はできません。
-                </p>
-                @else
                 <button class="attendance-detail__btn" type="submit">修正</button>
-                @endif
             </div>
         </form>
     </div>

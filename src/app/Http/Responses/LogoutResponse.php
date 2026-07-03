@@ -8,6 +8,9 @@ class LogoutResponse implements LogoutResponseContract
 {
     public function toResponse($request)
     {
+        if ($request->routeIs('admin.logout')) {
+            return redirect('/admin/login');
+        }
         return redirect('/login');
     }
 }
