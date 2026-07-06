@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware(['auth','verified'])->group(function(){
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
     Route::post('/attendance/clock-in',[AttendanceController::class, 'clockIn'])->name('attendance.clockIn');
     Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clockOut');
@@ -41,7 +42,7 @@ Route::middleware('guest:admin')
 
 Route::middleware('auth:admin')
     ->group(function (){
-        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+        Route::post('/admin/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
         Route::get('admin/attendance/list', [AdminController::class, 'attendanceList'])->name('admin.attendance.list');
         Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
         Route::patch('/admin/attendance/{attendance}', [AdminController::class, 'updateAttendance'])->name('admin.attendance.update');

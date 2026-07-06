@@ -44,8 +44,20 @@ class AdminController extends Controller
 
     }
 
-    public function staffAttendanceList()
+    public function staffAttendanceList($id)
     {
+        $user = User::findOrFail($id);
+
+        $year = request('year', now()->year);
+        $month = request('month', now()->month);
+
+        $attendances = Attendance::with('breaks')->where('user_id', $user->id)
+        ->whereYear('work_date',$year)
+        ->whereMonth('work_date', $month)
+        ->orderBy('work_date', 'desc')
+        ->get();
+
+        return view('admin.attendance.staff', compact ('user', 'attendances', 'year', 'month'));
 
     }
 
