@@ -57,13 +57,32 @@ class AdminController extends Controller
         ->orderBy('work_date', 'desc')
         ->get();
 
-        return view('admin.attendance.staff', compact ('user', 'attendances', 'year', 'month'));
+        return view('admin.attendance_staff', compact ('user', 'attendances', 'year', 'month'));
 
     }
 
     public function correctionRequestList()
     {
+        $status = request('status', 'pending');
 
+        $query = AttendanceCorrectionRequest::with('attendance.user');
+
+        if($status === 'pending') {
+            $query->where('is_approved', false);
+        } else {
+            $query->where('is_approved', true);
+        }
+
+        $requests = $query->latest()->get();
+
+        return view('admin.correction-request-list', compact('requests', 'status'));
+    }
+
+    public function exportCsv($id)
+    {
+        $user = User::findOrFail($id);
+
+        $year = request('year', now()->year);
     }
 
     public function correctionApproveView()

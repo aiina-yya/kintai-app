@@ -51,4 +51,5 @@ Route::middleware('auth:admin')
         //Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');
         Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
         Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
+        Route::get('/admin/attendance/staff/{id}/csv', [AdminController::class, 'exportCsv'])->name('admin.attendance.csv');
 });

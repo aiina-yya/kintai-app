@@ -9,9 +9,12 @@
 @section('content')
 <div class="attendance-list">
     <div class="attendance-list__container">
-        <h1 class="attendance-list__title">{{ $user->name }}</h1>
+        <h1 class="attendance-list__title">{{ $user->name }}さんの勤怠</h1>
         <div class="attendance-list__header">
-            <a class="attendance-list__nav" href="?year={{ $month == 1 ? $year - 1 : $year }}&month={{ $month == 1 ? 12 : $month - 1 }}">
+            <a class="attendance-list__nav" href="{{ route('admin.attendance.staff', [
+            'id' => $user->id,
+            'year' => $month == 1 ? $year - 1 : $year,
+            'month' => $month == 1 ? 12 : $month - 1]) }}">
             ←前月
             </a>
 
@@ -20,7 +23,10 @@
                 {{ $year }}/{{ $month }}
             </div>
 
-            <a class="attendance-list__nav" href="?year={{ $month == 12 ? $year + 1 : $year }}&month={{ $month == 12 ? 1 : $month + 1 }}">
+            <a class="attendance-list__nav" href="{{ route('admin.attendance.staff', [
+            'id' => $user->id,
+            'year' => $month == 12 ? $year + 1 : $year,
+            'month' => $month == 12 ? 1 : $month + 1]) }}">
             →翌月
             </a>
         </div>
@@ -59,11 +65,18 @@
 
                         <td>{{ $attendance->work_minutes }}</td>
 
-                        <td><a href="{{ route('attendance.detail', $attendance->id) }}">詳細</a></td>
+                        <td><a href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a></td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="attendance-list__csv">
+            <a class="attendance-list__csv-btn" href="{{ route('admin.attendance.csv', [
+            'id' => $user->id,
+            'year' => $year,
+            'month' => $month,
+            ]) }}">CSV出力</a>
         </div>
     </div>
 </div>
