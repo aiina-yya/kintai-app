@@ -15,7 +15,7 @@
                     <a href="{{ route('admin.staff') }}">スタッフ一覧</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.attendance">申請一覧</a>
+                    <a href="{{ route('correction.list') }}">申請一覧</a>
                 </li>
                 <li>
                     <form action="{{ route('admin.logout') }}" method="post">

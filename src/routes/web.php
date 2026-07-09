@@ -28,7 +28,6 @@ Route::middleware(['auth','verified'])->group(function(){
     Route::get('/attendance/list', [AttendanceController::class, 'attendanceList'])->name('attendance.list');
     Route::get('/attendance/detail/{attendance}', [AttendanceController::class, 'attendanceDetail'])->name('attendance.detail');
     Route::post('/attendance/detail/{attendance}', [AttendanceCorrectionController::class, 'store'])->name('attendance.correction');
-    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'show'])->name('correction.list');
 });
 
 Route::middleware('guest:admin')
@@ -40,6 +39,10 @@ Route::middleware('guest:admin')
         Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
     });
 
+    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'index'])
+    ->middleware('auth.user_or_admin')
+    ->name('correction.list');
+
 Route::middleware('auth:admin')
     ->group(function (){
         Route::post('/admin/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
@@ -48,7 +51,6 @@ Route::middleware('auth:admin')
         Route::patch('/admin/attendance/{attendance}', [AdminController::class, 'updateAttendance'])->name('admin.attendance.update');
         Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
         Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
-        //Route::get('/stamp_correction_request/list', [AdminController::class, 'correctionRequestList'])->name('admin.correction');
         Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
         Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
         Route::get('/admin/attendance/staff/{id}/csv', [AdminController::class, 'exportCsv'])->name('admin.attendance.csv');

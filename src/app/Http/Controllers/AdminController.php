@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\AttendanceCorrection;
 
 class AdminController extends Controller
 {
@@ -65,7 +66,7 @@ class AdminController extends Controller
     {
         $status = request('status', 'pending');
 
-        $query = AttendanceCorrectionRequest::with('attendance.user');
+        $query = AttendanceCorrection::with('attendance.user');
 
         if($status === 'pending') {
             $query->where('is_approved', false);
@@ -75,7 +76,7 @@ class AdminController extends Controller
 
         $requests = $query->latest()->get();
 
-        return view('admin.correction-request-list', compact('requests', 'status'));
+        return view('admin.correction_request_list', compact('requests', 'status'));
     }
 
     public function exportCsv($id)

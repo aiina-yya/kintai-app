@@ -8,6 +8,19 @@ use App\Models\AttendanceCorrection;
 
 class AttendanceCorrectionController extends Controller
 {
+    public function index(Request $request)
+    {
+        if (auth('admin')->check()) {
+            return app(AdminController::class)->correctionRequestList($request);
+        }
+
+        if (auth()->check()) {
+            return $this->show($request);
+        }
+
+        abort(403);
+    }
+
     public function show(Request $request)
     {
         $status = $request->query('status' , 'pending');
