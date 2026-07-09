@@ -26,4 +26,10 @@ class AttendanceCorrection extends Model
         'reason',
         'is_approved',
     ];
+
+    protected $casts = [
+        'requested_clock_in' => 'datetime',
+        'requested_clock_out' => 'datetime',
+        'is_approved' => 'boolean',
+    ];
 }

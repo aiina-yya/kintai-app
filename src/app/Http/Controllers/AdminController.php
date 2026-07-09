@@ -88,11 +88,31 @@ class AdminController extends Controller
 
     public function correctionApproveView()
     {
+        $correction = AttendanceCorrectionRequest::with([
+            'attendance.user'
+        ])->findOrFail($attendance_correction_request_id);
 
+        return view('admin.approve', compact('correction'));
     }
 
-    public function approve()
+    public function approve($attendance_correction_request_id)
     {
+        $correction = AttendanceCorrection::findOrFail(
+            $attendance_correction_request_id
+        );
 
+        $attendance = $correction->attendance;
+
+        $attendance->update([
+            'clock_in' => $correction->requested_clock_in,
+            'clock_out' => $correction->requested_clock_out,
+        ]);
+
+        $correction->update([
+            'is_approved' => true,
+        ]);
+
+        return redirect()
+        ->route('correction.list');
     }
 }
