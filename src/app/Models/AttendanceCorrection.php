@@ -14,7 +14,7 @@ class AttendanceCorrection extends Model
         return $this->belongsTo(Attendance::class);
     }
 
-    public function correctionBreaks()
+    public function breaks()
     {
         return $this->hasMany(AttendanceCorrectionBreak::class);
     }

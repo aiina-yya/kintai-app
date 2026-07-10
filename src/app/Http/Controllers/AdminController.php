@@ -22,15 +22,15 @@ class AdminController extends Controller
 
     }
 
-    public function attendanceDetail(Attendance $attendance)
+    public function attendanceDetail($id)
     {
-        $attendance->load([
+        $attendance = Attendance::with([
             'user',
             'breaks',
             'correctionRequest',
-        ]);
+        ])->findOrFail($id);
 
-        return view('admin.attendance-detail', compact('attendance'));
+        return view('admin.attendance_detail', compact('attendance'));
     }
 
     public function attendanceUpdate()
@@ -93,7 +93,7 @@ class AdminController extends Controller
             'breaks'
         ])->findOrFail($attendance_correction_id);
 
-        return view('admin.approve', compact('correction'));
+        return view('admin.correction_approve', compact('correction'));
     }
 
     public function approve($attendance_correction_id)

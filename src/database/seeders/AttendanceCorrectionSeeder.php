@@ -17,7 +17,7 @@ class AttendanceCorrectionSeeder extends Seeder
         $users = User::with('attendance')->get();
 
         foreach ($users as $user) {
-            $attendances = $user->attendances()->latest('work_date')->take(5)->get();
+            $attendances = $user->attendance()->latest('work_date')->take(5)->get();
 
             foreach ($attendances as $index => $attendance) {
                 $date = $attendance->work_date->copy();

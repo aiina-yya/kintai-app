@@ -11,8 +11,9 @@
     <div class="attendance-detail__container">
 
         <h1 class="attendance-detail__title">勤怠詳細</h1>
-        <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="post">
+        <form action="{{ route('admin.attendance.update', ['attendance' => $attendance->id]) }}" method="post">
             @csrf
+            @method('PATCH')
             <div class="attendance-detail__content">
 
                 <div class="attendance-detail__row">
