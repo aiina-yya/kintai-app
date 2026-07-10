@@ -31,25 +31,25 @@
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">出勤・退勤</label>
                     <div class="attendance-detail__times">
-                        <input class="attendance-detail__input" type="time" value="{{ optional($correction->attendance->clock_in)->format('H:i') }}" readonly>
+                        <input class="attendance-detail__input" type="time" value="{{ optional($correction->requested_clock_in)->format('H:i') }}" readonly>
 
                         <span>～</span>
 
-                        <input class="attendance-detail__input" type="time" value="{{ optional($correction->attendance->clock_out)->format('H:i') }}"readonly>
+                        <input class="attendance-detail__input" type="time" value="{{ optional($correction->requested_clock_out)->format('H:i') }}"readonly>
                     </div>
                 </div>
-                @foreach($correction->attendance->breaks as $index => $break)
+                @foreach($correction->breaks as $index => $break)
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">休憩{{ $index + 1 }}</label>
 
                     <input type="hidden" name="break_ids[]" value="{{ $break->id }}">
 
                     <div class="attendance-detail__times">
-                    <input class="attendance-detail__input" type="time" name="break_start[]" value="{{ optional($break->break_start)->format('H:i') }}" readonly>
+                    <input class="attendance-detail__input" type="time" name="break_start[]" value="{{$break->requested_break_start->format('H:i') }}" readonly>
 
                     <span>～</span>
 
-                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{ optional($break->break_end)->format('H:i') }}" readonly>
+                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{$break->requested-_break_end->format('H:i') }}" readonly>
                     </div>
                 </div>
                 @endforeach

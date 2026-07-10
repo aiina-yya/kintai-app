@@ -40,13 +40,22 @@ class AttendanceCorrectionController extends Controller
 
     public function store(Request $request, Attendance $attendance)
     {
-        AttendanceCorrection::create([
+        $correction = AttendanceCorrection::create([
             'attendance_id' => $attendance->id,
             'requested_clock_in' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_in,
             'requested_clock_out' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_out,
             'reason' => $request->reason,
             'is_approved' => false,
         ]);
+
+        foreach ($attendance->breaks as $i => $break) {
+            AttendanceCorrectionBreak::create([
+                'attendance_correction_id' => $correction->id,
+                'attendance_break_id' => $break->id,
+                'requested_break_start' => $attendance->work_date->format('Y-m-d') .' '.$request->break_start[$i],
+                'requested_break_end' => $attendance->work_date->format('Y-m-d') .' '.$request->break_end[$i],
+            ]);
+        }
 
         return redirect()->route('attendance.list');
     }

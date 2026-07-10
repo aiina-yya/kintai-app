@@ -86,20 +86,19 @@ class AdminController extends Controller
         $year = request('year', now()->year);
     }
 
-    public function correctionApproveView()
+    public function correctionApproveView($attendance_correction_id)
     {
-        $correction = AttendanceCorrectionRequest::with([
-            'attendance.user'
-        ])->findOrFail($attendance_correction_request_id);
+        $correction = AttendanceCorrection::with([
+            'attendance.user',
+            'breaks'
+        ])->findOrFail($attendance_correction_id);
 
         return view('admin.approve', compact('correction'));
     }
 
-    public function approve($attendance_correction_request_id)
+    public function approve($attendance_correction_id)
     {
-        $correction = AttendanceCorrection::findOrFail(
-            $attendance_correction_request_id
-        );
+        $correction = AttendanceCorrection::with('breaks')->findOrFail($attendance_correction_id);
 
         $attendance = $correction->attendance;
 
@@ -107,6 +106,19 @@ class AdminController extends Controller
             'clock_in' => $correction->requested_clock_in,
             'clock_out' => $correction->requested_clock_out,
         ]);
+
+        foreach ($correction->breaks as $correctionBreak) {
+            $attendanceBreak = $attendance->breaks()
+            ->where('id', $correctionBreak->attendance_break_id)
+            ->first();
+
+            if($attendanceBreak) {
+                $attendanceBreak->update([
+                    'break_start' => $correctionBreak->requested_break_start,
+                    'break_end' => $correctionBreak->requested_break_end,
+                ]);
+            }
+        }
 
         $correction->update([
             'is_approved' => true,
