@@ -23,13 +23,15 @@ class AttendanceSeeder extends Seeder
             for ($i = 0; $i < 20; $i++) {
                 $date = Carbon::today()->subDays($i);
 
-                Attendance::create([
+                Attendance::firstOrCreate([
                     'user_id' => $user->id,
-                    'work_date' => $date,
-                    'clock_in' => $date->copy()->setTime(rand(8,9), rand(0,59)),
-                    'clock_out' => $date->copy()->setTime(rand(17,18), rand(0,59)),
-                    'work_minutes' => 480,
-                ]);
+                    'work_date' => $date->toDateString(),
+                    ],
+                    [
+                        'clock_in' => $date->copy()->setTime(rand(8,9), rand(0,59)),
+                        'clock_out' => $date->copy()->setTime(rand(17,18), rand(0,59)),
+                        'work_minutes' => 480,
+                    ]);
             }
         }
     }

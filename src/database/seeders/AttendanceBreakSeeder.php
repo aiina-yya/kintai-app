@@ -19,7 +19,7 @@ class AttendanceBreakSeeder extends Seeder
         foreach ($attendances as $attendance) {
             $date = $attendance->work_date->copy();
 
-            $attendance->breaks()->create([
+            $attendance->breaks()->firstOrCreate([
                     'break_start' => $date->copy()->setTime(12,0),
                     'break_end' => $date->copy()->setTime(13,0),
                 ]);

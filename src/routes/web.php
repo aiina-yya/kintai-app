@@ -48,7 +48,7 @@ Route::middleware('auth:admin')
         Route::post('/admin/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
         Route::get('admin/attendance/list', [AdminController::class, 'attendanceList'])->name('admin.attendance.list');
         Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
-        Route::patch('/admin/attendance/{attendance}', [AdminController::class, 'updateAttendance'])->name('admin.attendance.update');
+        Route::patch('/admin/attendance/{attendance}', [AdminController::class, 'attendanceUpdate'])->name('admin.attendance.update');
         Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
         Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
         Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');

@@ -7,7 +7,7 @@
         @if(true)
         <nav class="header__nav">
             <ul>
-            @if(Auth::check())
+            @if(Auth::check() && Auth::user()->hasVerifiedEmail())
                 <li>
                     <a href="{{ route('attendance') }}">勤怠</a>
                 </li>
