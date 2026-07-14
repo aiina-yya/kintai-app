@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\AttendanceCorrection;
+use App\Http\Requests\AdminAttendanceUpdateRequest;
 
 class AdminController extends Controller
 {
@@ -33,8 +34,35 @@ class AdminController extends Controller
         return view('admin.attendance_detail', compact('attendance'));
     }
 
-    public function attendanceUpdate()
+    public function attendanceUpdate(AdminAttendanceUpdateRequest $request, Attendance $attendance)
     {
+        $attendance->update([
+            'clock_in' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_in,
+            'clock_out' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_out,
+        ]);
+
+        $totalBreakMinutes = 0;
+
+        foreach ($request->break_ids as $index => $breakId) {
+            $break = AttendanceBreak::findOrFail($breakId);
+
+            $break->update([
+                'break_start' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_start[$index],
+                'break_end' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_end[$index],
+            ]);
+
+            $totalBreakMinutes += $break->break_end->diffInMinutes($break->break_start);
+
+
+        }
+
+        $workMinutes = $attendance->clock_out->diffInMinutes($attendance->clock_in) - $totalBreakMinutes;
+
+        $attendance->update([
+            'work_minutes' => $workMinutes,
+            ]);
+
+        return redirect()->route('admin.attendance.list');
     }
 
     public function staffList()

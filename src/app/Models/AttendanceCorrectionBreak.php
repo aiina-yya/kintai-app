@@ -12,6 +12,13 @@ class AttendanceCorrectionBreak extends Model
         return $this->belongsTo(AttendanceCorrection::class);
     }
 
+    protected $fillable = [
+        'attendance_correction_id',
+        'attendance_break_id',
+        'requested_break_start',
+        'requested_break_end',
+    ];
+
     protected $casts = [
         'requested_break_start' => 'datetime',
         'requested_break_end' => 'datetime',

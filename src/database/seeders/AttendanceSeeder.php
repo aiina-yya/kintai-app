@@ -28,8 +28,8 @@ class AttendanceSeeder extends Seeder
                     'work_date' => $date->toDateString(),
                     ],
                     [
-                        'clock_in' => $date->copy()->setTime(rand(8,9), rand(0,59)),
-                        'clock_out' => $date->copy()->setTime(rand(17,18), rand(0,59)),
+                        'clock_in' => $date->copy()->setTime(9,0),
+                        'clock_out' => $date->copy()->setTime(18,0),
                         'work_minutes' => 480,
                     ]);
             }

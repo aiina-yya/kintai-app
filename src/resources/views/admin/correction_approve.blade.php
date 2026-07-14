@@ -49,7 +49,7 @@
 
                     <span>～</span>
 
-                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{$break->requested-_break_end->format('H:i') }}" readonly>
+                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{$break->requested_break_end->format('H:i') }}" readonly>
                     </div>
                 </div>
                 @endforeach
