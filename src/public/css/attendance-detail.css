@@ -108,6 +108,12 @@ input[type="time"] {
     font-weight: bold;
 }
 
+.register-form__error-message {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
 .attendance-detail__button {
     margin-top: 40px;
 

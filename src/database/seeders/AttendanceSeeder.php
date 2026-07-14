@@ -31,6 +31,7 @@ class AttendanceSeeder extends Seeder
                         'clock_in' => $date->copy()->setTime(9,0),
                         'clock_out' => $date->copy()->setTime(18,0),
                         'work_minutes' => 480,
+                        'reason' => null,
                     ]);
             }
         }

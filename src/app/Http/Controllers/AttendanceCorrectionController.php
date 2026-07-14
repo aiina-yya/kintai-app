@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceCorrection;
+use App\Http\Requests\AttendanceCorrectionRequest;
 
 class AttendanceCorrectionController extends Controller
 {
@@ -38,7 +39,7 @@ class AttendanceCorrectionController extends Controller
         return view('user.correction_request_list', compact('requests', 'status'));
     }
 
-    public function store(Request $request, Attendance $attendance)
+    public function store(AttendanceCorrectionRequest $request, Attendance $attendance)
     {
         $correction = AttendanceCorrection::create([
             'attendance_id' => $attendance->id,

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\AttendanceCorrection;
 use App\Http\Requests\AdminAttendanceUpdateRequest;
+use App\Models\AttendanceBreak;
 
 class AdminController extends Controller
 {
@@ -39,6 +40,7 @@ class AdminController extends Controller
         $attendance->update([
             'clock_in' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_in,
             'clock_out' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_out,
+            'reason' => $request->reason,
         ]);
 
         $totalBreakMinutes = 0;
@@ -51,9 +53,16 @@ class AdminController extends Controller
                 'break_end' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_end[$index],
             ]);
 
+            $newIndex = count($request->break_ids);
+
+            if (!empty($request->break_start[$request->break_ids ? count($request->break_ids) : 0])) {
+                $attendance->breaks()->create([
+                    'break_start' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_start[$newIndex],
+                    'break_end' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_end[$newIndex],
+                ]);
+}
+
             $totalBreakMinutes += $break->break_end->diffInMinutes($break->break_start);
-
-
         }
 
         $workMinutes = $attendance->clock_out->diffInMinutes($attendance->clock_in) - $totalBreakMinutes;

@@ -50,6 +50,8 @@ class Attendance extends Model
         'work_date',
         'clock_in',
         'clock_out',
+        'work_minutes',
+        'reason',
     ];
 
     protected $casts = [

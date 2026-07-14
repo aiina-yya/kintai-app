@@ -56,18 +56,18 @@ class AdminAttendanceUpdateRequest extends FormRequest
                     continue;
                 }
 
-                if ($start < $this->clock_in || $start > $this->clock_out) {
-                $validator->errors()->add(
-                    "break_start.$index",
-                    '休憩時間が不適切な値です'
-                );
-                }
-
                 if($end && $end > $this->clock_out) {
                     $validator->errors()->add(
                         "break_end.$index",
                         '休憩時間もしくは退勤時間が不適切な値です'
                     );
+                }
+
+                if ($start < $this->clock_in || $start > $this->clock_out) {
+                $validator->errors()->add(
+                    "break_end.$index",
+                    '休憩時間が不適切な値です'
+                );
                 }
 
                 if ($end && $end <= $start) {

@@ -31,13 +31,19 @@
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">出勤・退勤</label>
                     <div class="attendance-detail__times">
-                        <input class="attendance-detail__input" type="time" name="clock_in" value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                        <input class="attendance-detail__input" type="time" name="clock_in" value="{{ old('clock_in', optional($attendance->clock_in)->format('H:i')) }}">
 
                         <span>～</span>
 
-                        <input class="attendance-detail__input" type="time" name="clock_out" value="{{ optional($attendance->clock_out)->format('H:i') }}">
+                        <input class="attendance-detail__input" type="time" name="clock_out" value="{{ old('clock_out', optional($attendance->clock_out)->format('H:i')) }}">
+                        <p class="register-form__error-message">
+                            @error('clock_in')
+                            {{ $message }}
+                            @enderror
+                        </p>
                     </div>
                 </div>
+
                 @foreach($attendance->breaks as $index => $break)
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">休憩{{ $index + 1 }}</label>
@@ -45,29 +51,58 @@
                     <input type="hidden" name="break_ids[]" value="{{ $break->id }}">
 
                     <div class="attendance-detail__times">
-                    <input class="attendance-detail__input" type="time" name="break_start[]" value="{{ optional($break->break_start)->format('H:i') }}">
+                    <input class="attendance-detail__input" type="time" name="break_start[]" value="{{ old('break_start.'.$index, optional($break->break_start)->format('H:i')) }}">
+                    <p class="register-form__error-message">
+                            @error("break_start.$index")
+                            {{ $message }}
+                            @enderror
+                        </p>
 
                     <span>～</span>
 
-                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{ optional($break->break_end)->format('H:i') }}">
+                    <input class="attendance-detail__input" type="time" name="break_end[]" value="{{ old('break_end.'.$index, optional($break->break_end)->format('H:i')) }}">
+                    <p class="register-form__error-message">
+                        @error("break_end.$index")
+                        {{ $message }}
+                        @enderror
+                    </p>
                     </div>
                 </div>
                 @endforeach
 
+                @php
+                $newIndex = $attendance->breaks->count();
+                @endphp
+
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label">休憩{{ $attendance->breaks->count() + 1 }}</label>
                     <div class="attendance-detail__times">
-                        <input class="attendance-detail__input" type="time">
+                        <input class="attendance-detail__input" type="time" name="break_start[]" value="{{ old('break_start.'.$newIndex) }}">
+                        <p class="register-form__error-message">
+                            @error("break_start.$newIndex")
+                            {{ $message }}
+                            @enderror
+                        </p>
 
                         <span>～</span>
 
-                        <input class="attendance-detail__input" type="time">
+                        <input class="attendance-detail__input" type="time" name="break_end[]" value="{{ old('break_end.'.$newIndex) }}">
+                        <p class="register-form__error-message">
+                            @error("break_end.$newIndex")
+                            {{ $message }}
+                            @enderror
+                        </p>
                     </div>
                 </div>
 
                 <div class="attendance-detail__row">
                     <label class="attendance-detail__label" for="reason">備考</label>
                     <textarea class="attendance-detail__textarea" name="reason" id="reason">{{ old('reason', $attendance->reason ?? '') }}</textarea>
+                    <p class="register-form__error-message">
+                        @error('reason')
+                        {{ $message }}
+                        @enderror
+                    </p>
                 </div>
             </div>
 
