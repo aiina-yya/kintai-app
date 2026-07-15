@@ -35,7 +35,7 @@ class AdminController extends Controller
         return view('admin.attendance_detail', compact('attendance'));
     }
 
-    public function attendanceUpdate(AdminAttendanceUpdateRequest $request, Attendance $attendance)
+    public function attendanceUpdate(AdminAttendanceUpdateRequest $request, $id)
     {
         $attendance->update([
             'clock_in' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_in,
@@ -60,7 +60,7 @@ class AdminController extends Controller
                     'break_start' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_start[$newIndex],
                     'break_end' => $attendance->work_date->format('Y-m-d') . ' ' . $request->break_end[$newIndex],
                 ]);
-}
+                }
 
             $totalBreakMinutes += $break->break_end->diffInMinutes($break->break_start);
         }

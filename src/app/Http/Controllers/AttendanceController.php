@@ -150,12 +150,5 @@ class AttendanceController extends Controller
         $attendance->load('user', 'breaks');
 
         return view('user.attendance_detail', compact('attendance'));
-
-
-    }
-
-    public function correctionStore()
-    {
-
     }
 }
