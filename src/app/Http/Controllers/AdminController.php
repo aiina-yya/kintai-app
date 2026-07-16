@@ -121,6 +121,46 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         $year = request('year', now()->year);
+        $month = request('month', now()->month);
+
+        $attendances = Attendance::with('breaks')
+        ->where('user_id', $user->id)
+        ->whereYear('work_date', $year)
+        ->whereMonth('work_date', $month)
+        ->orderBy('work_date', 'desc')
+        ->get();
+
+        return response()->streamDownload(function () use ($attendances) {
+            $handle = fopen('php://output', 'W');
+
+            fputcsv($handle, ['日付', '出勤', '退勤', '休憩', '合計']);
+
+            foreach ($attendances as $attendance) {
+
+                $breakMinutes = 0;
+
+                foreach ($attendance->breaks as $break) {
+
+                    if ($break->break_end) {
+                        $breakMinutes += $break->break_end->diffInMinutes($break->break_start);
+                    }
+                }
+                $breakTime = floor($breakMinutes / 60) . ':' . sprintf('%02d', $breakMinutes % 60);
+
+                $workTime = floor($attendance->work_minutes / 60) . ':' . sprintf('%02d', $attendance->work_minutes % 60);
+
+            fputcsv($handle, [
+                $attendance->work_date,
+                optional($attendance->clock_in)->format('H:i'),
+                optional($attendance->clock_out)->format('H:i'),
+                $breakTime,
+                $workTime,
+            ]);
+        }
+
+        fclose($handle);
+
+        }, 'attendance.csv');
     }
 
     public function correctionApproveView($attendance_correction_id)
