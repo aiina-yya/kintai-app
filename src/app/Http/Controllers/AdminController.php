@@ -130,8 +130,8 @@ class AdminController extends Controller
         ->orderBy('work_date', 'desc')
         ->get();
 
-        return response()->streamDownload(function () use ($attendances) {
-            $handle = fopen('php://output', 'W');
+        return response()->streamDownload(function () use ($attendances, $user, $year, $month) {
+            $handle = fopen('php://output', 'w');
 
             fputcsv($handle, ['日付', '出勤', '退勤', '休憩', '合計']);
 
@@ -147,10 +147,10 @@ class AdminController extends Controller
                 }
                 $breakTime = floor($breakMinutes / 60) . ':' . sprintf('%02d', $breakMinutes % 60);
 
-                $workTime = floor($attendance->work_minutes / 60) . ':' . sprintf('%02d', $attendance->work_minutes % 60);
+                $workTime = $attendance->work_minutes ? floor($attendance->work_minutes / 60) . ':' . sprintf('%02d', $attendance->work_minutes % 60) : '';
 
             fputcsv($handle, [
-                $attendance->work_date,
+                $attendance->work_date->format('Y-m-d'),
                 optional($attendance->clock_in)->format('H:i'),
                 optional($attendance->clock_out)->format('H:i'),
                 $breakTime,
@@ -160,7 +160,8 @@ class AdminController extends Controller
 
         fclose($handle);
 
-        }, 'attendance.csv');
+        }, "$user->name . _{$year}_{$month}.csv"
+        );
     }
 
     public function correctionApproveView($attendance_correction_id)
