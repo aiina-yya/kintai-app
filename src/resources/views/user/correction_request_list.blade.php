@@ -36,7 +36,11 @@
                     <td>{{ $request->reason }}</td>
                     <td>{{ $request->created_at->format('Y/m/d') }}</td>
                     <td>
-                        <a href="{{ route('attendance.detail', $request->attendance_id) }}">詳細</a>
+                        <a href="{{ route('attendance.detail', [
+                        'attendance' => $request->attendance_id,
+                        'correction' => $request->id,
+                        'from' => 'request'
+                        ]) }}">詳細</a>
                     </td>
                 </tr>
                 @endforeach

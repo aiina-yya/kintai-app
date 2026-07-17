@@ -13,7 +13,7 @@ class LoginTest extends TestCase
 
     public function test_email_is_required_for_login()
     {
-        $response = $this->post('/login', [
+        $response = $this->post('/admin/login', [
             'email' => '',
             'password' => 'password',
         ]);
@@ -23,8 +23,8 @@ class LoginTest extends TestCase
 
     public function test_password_is_required_for_login()
     {
-        $response = $this->post('/login', [
-            'email' => 'test@example.com',
+        $response = $this->post('/admin/login', [
+            'email' => 'admin@example.com',
             'password' => '',
         ]);
 
@@ -65,7 +65,8 @@ class LoginTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $response->assertRedirect('/attendance');
+        $response->assertRedirect('admin/attendance');
     }
 }
+
 

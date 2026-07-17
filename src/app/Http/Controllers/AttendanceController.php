@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AttendanceCorrection;
 
 class AttendanceController extends Controller
 {
@@ -149,6 +150,13 @@ class AttendanceController extends Controller
     {
         $attendance->load('user', 'breaks');
 
-        return view('user.attendance_detail', compact('attendance'));
+        $readonly = request('from') === 'request';
+
+        if ($readonly) {
+            $correction = AttendanceCorrection::with('breaks')
+            ->find(request('correction'));
+        }
+
+        return view('user.attendance_detail', compact('attendance','readonly', 'correction'));
     }
 }

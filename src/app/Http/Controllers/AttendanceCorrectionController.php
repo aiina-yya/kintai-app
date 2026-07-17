@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceCorrection;
+use App\Models\AttendanceCorrectionBreak;
 use App\Http\Requests\AttendanceCorrectionRequest;
 
 class AttendanceCorrectionController extends Controller
@@ -31,6 +32,8 @@ class AttendanceCorrectionController extends Controller
             $query->where('user_id', auth()->id());
         })
         ->when($status === 'pending', function ($query) {
+            $query->where('is_approved', false);
+        }, function ($query){
             $query->where('is_approved', true);
         })
         ->latest()
@@ -48,12 +51,13 @@ class AttendanceCorrectionController extends Controller
             'reason' => $request->reason,
             'is_approved' => false,
         ]);
+        dd($request->break_start, $request->break_end, $request->break_ids);
 
-        foreach ($attendance->breaks as $i => $break) {
-            AttendanceCorrectionBreak::create([
+        foreach ($request->break_start as $i => $start) {
+            $correctionBreak = AttendanceCorrectionBreak::create([
                 'attendance_correction_id' => $correction->id,
-                'attendance_break_id' => $break->id,
-                'requested_break_start' => $attendance->work_date->format('Y-m-d') .' '.$request->break_start[$i],
+                'attendance_break_id' => $request->break_ids[$i] ?? null,
+                'requested_break_start' => $attendance->work_date->format('Y-m-d') .' '.$start,
                 'requested_break_end' => $attendance->work_date->format('Y-m-d') .' '.$request->break_end[$i],
             ]);
         }
