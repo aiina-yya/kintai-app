@@ -152,6 +152,8 @@ class AttendanceController extends Controller
 
         $readonly = request('from') === 'request';
 
+        $correction = null;
+
         if ($readonly) {
             $correction = AttendanceCorrection::with('breaks')
             ->find(request('correction'));

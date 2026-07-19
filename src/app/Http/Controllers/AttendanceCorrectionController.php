@@ -51,7 +51,6 @@ class AttendanceCorrectionController extends Controller
             'reason' => $request->reason,
             'is_approved' => false,
         ]);
-        dd($request->break_start, $request->break_end, $request->break_ids);
 
         foreach ($request->break_start as $i => $start) {
             $correctionBreak = AttendanceCorrectionBreak::create([
