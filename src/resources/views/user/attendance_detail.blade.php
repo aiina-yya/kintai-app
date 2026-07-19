@@ -102,15 +102,26 @@
                 </div>
 
                 <div class="attendance-detail__row">
-                    <label class="attendance-detail__label" for="reason">備考</label>
-                    <textarea class="attendance-detail__textarea" name="reason" id="reason"
-                    {{ $readonly ? 'readonly' : '' }}>{{ old('reason',$readonly ? $correction?->reason :($attendance->reason ?? '')) }} </textarea>
-                    <p class="register-form__error-message">
-                        @error('reason')
-                        {{ $message }}
-                        @enderror
-                    </p>
-                </div>
+    <label class="attendance-detail__label" for="reason">備考</label>
+
+    @if($readonly)
+        <p class="attendance-detail__reason">
+            {{ old('reason', $correction?->reason) }}
+        </p>
+    @else
+        <textarea
+            class="attendance-detail__textarea"
+            name="reason"
+            id="reason"
+        >{{ old('reason', $attendance->reason ?? '') }}</textarea>
+    @endif
+
+    <p class="register-form__error-message">
+        @error('reason')
+        {{ $message }}
+        @enderror
+    </p>
+</div>
             </div>
 
                 <div class="attendance-detail__button">

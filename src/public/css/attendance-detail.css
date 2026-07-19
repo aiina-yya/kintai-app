@@ -108,6 +108,12 @@ input[type="time"] {
     font-weight: bold;
 }
 
+.attendance-detail__reason {
+    font-weight: bold;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
 .attendance-detail__textarea[readonly] {
     border: none !important;
     background: transparent;
