@@ -1,12 +1,12 @@
-# アプリケーション名  
+# アプリケーション名
 
-勤怠管理アプリ  
+勤怠管理アプリ
 
-# Dockerビルド  
+# Dockerビルド
 
 1.git clone git@github.com:  
 2.DockerDesktopアプリを立ち上げる  
-3.docker-compose up -d --build  
+3.docker-compose up -d --build
 
 # Laravel環境構築
 
@@ -22,7 +22,4 @@ DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user  
 DB_PASSWORD=laravel_pass
 
-5.アプリケーションキーの作成  
-
-
-
+5.アプリケーションキーの作成

@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\User;
+use App\Models\Admin;
 
 class LoginTest extends TestCase
 {
@@ -33,12 +33,12 @@ class LoginTest extends TestCase
 
     public function test_user_cannot_login_with_unregistered_email()
     {
-        $response = $this->from('/login')->post('/login', [
+        $response = $this->from('/admin/login')->post('/admin/login', [
             'email' => 'test@example.com',
             'password' => 'password',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/admin/login');
 
         $response->assertSessionHasErrors([
             'email',
@@ -51,21 +51,21 @@ class LoginTest extends TestCase
         ]);
     }
 
-    public function test_user_can_login()
+    public function test_admin_can_login()
     {
-        $user = User::factory()->create([
-            'email' => 'test@example.com',
+        $admin = Admin::factory()->create([
+            'email' => 'admin@example.com',
             'password' => bcrypt('password'),
         ]);
 
-        $response = $this->post('/login', [
-            'email' => 'test@example.com',
+        $response = $this->post('/admin/login', [
+            'email' => 'admin@example.com',
             'password' => 'password',
         ]);
 
-        $this->assertAuthenticated();
+        $this->assertAuthenticated('admin');
 
-        $response->assertRedirect('admin/attendance');
+        $response->assertRedirect('admin/attendance/list');
     }
 }
 

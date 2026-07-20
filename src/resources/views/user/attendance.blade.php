@@ -22,7 +22,7 @@
     </div>
 
     <div class="attendance__actions">
-        
+
         @if(!$attendance)
         <form action="{{ route('attendance.clockIn') }}" method="post">
             @csrf
@@ -43,7 +43,7 @@
             休憩戻
             </button>
         </form>
-        
+
         @else
         <form action="{{ route('attendance.clockOut') }}" method="post">
             @csrf
@@ -58,6 +58,6 @@
             </button>
         </form>
         @endif
-    </div>    
+    </div>
 </div>
 @endsection
