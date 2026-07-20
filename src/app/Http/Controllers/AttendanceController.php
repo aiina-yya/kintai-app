@@ -150,14 +150,24 @@ class AttendanceController extends Controller
     {
         $attendance->load('user', 'breaks');
 
-        $readonly = request('from') === 'request';
+        if (request()->filled('correction')) {
 
-        $correction = null;
 
-        if ($readonly) {
             $correction = AttendanceCorrection::with('breaks')
-            ->find(request('correction'));
-        }
+            ->findOrFail(request('correction'));
+
+            $readonly = true;
+
+            } else {
+                $correction = AttendanceCorrection::with('breaks')
+                ->where('attendance_id', $attendance->id)
+                ->where('is_approved', false)
+                ->latest()
+                ->first();
+
+                $readonly = $correction !== null;
+
+            }
 
         return view('user.attendance_detail', compact('attendance','readonly', 'correction'));
     }
