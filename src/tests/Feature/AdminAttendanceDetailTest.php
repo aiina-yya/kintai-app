@@ -51,7 +51,7 @@ class AdminAttendanceDetailTest extends TestCase
 
 
         $response = $this->actingAs($admin, 'admin')
-            ->put(route('admin.attendance.update', $attendance->id), [
+            ->patch(route('admin.attendance.update', $attendance->id), [
                 'clock_in' => '19:00',
                 'clock_out' => '18:00',
                 'note' => '修正理由',
@@ -75,22 +75,23 @@ class AdminAttendanceDetailTest extends TestCase
 
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
-            'clock_out' => '18:00:00',
         ]);
 
 
         $response = $this->actingAs($admin, 'admin')
-            ->put(route('admin.attendance.update', $attendance), [
+            ->patch(route('admin.attendance.update', $attendance->id), [
                 'clock_in' => '09:00',
                 'clock_out' => '18:00',
-                'break_start' => '19:00',
-                'break_end' => '19:30',
                 'note' => '修正理由',
+
+                'break_ids' => [],
+                'break_start' => ['19:00'],
+                'break_end' => ['19:30'],
             ]);
 
 
         $response->assertSessionHasErrors([
-            'break_start'
+            'break_end.0' => '休憩時間が不適切な値です'
         ]);
     }
 
@@ -106,17 +107,19 @@ class AdminAttendanceDetailTest extends TestCase
 
 
         $response = $this->actingAs($admin, 'admin')
-            ->put(route('admin.attendance.update', $attendance), [
+            ->patch(route('admin.attendance.update', $attendance->id), [
                 'clock_in' => '09:00',
                 'clock_out' => '18:00',
-                'break_start' => '12:00',
-                'break_end' => '19:00',
                 'note' => '修正理由',
+
+                'break_ids' => [],
+                'break_start' => ['12:00'],
+                'break_end' => ['19:00'],
             ]);
 
 
         $response->assertSessionHasErrors([
-            'break_end'
+            'break_end.0' => '休憩時間もしくは退勤時間が不適切な値です'
         ]);
     }
 
@@ -132,15 +135,19 @@ class AdminAttendanceDetailTest extends TestCase
 
 
         $response = $this->actingAs($admin, 'admin')
-            ->put(route('admin.attendance.update', $attendance), [
+            ->patch(route('admin.attendance.update', $attendance->id), [
                 'clock_in' => '09:00',
                 'clock_out' => '18:00',
-                'note' => '',
+                'reason' => '',
+
+                'break_ids' => [],
+                'break_start' => [],
+                'break_end' => [],
             ]);
 
 
         $response->assertSessionHasErrors([
-            'note'
+            'reason' => '備考を記入してください'
         ]);
     }
 }
