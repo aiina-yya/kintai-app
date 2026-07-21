@@ -1,6 +1,6 @@
 # アプリケーション名
 
-勤怠管理アプリ  
+勤怠管理アプリ
 
 ## 概要
 Laravelを使用して制作した勤怠管理アプリです。  
@@ -11,7 +11,7 @@ Laravelを使用して制作した勤怠管理アプリです。
 
 ## 使用技術
 
-- Larvel 8.83.27
+- Laravel 8.83.27
 - PHP 8.3.0
 - MySQL 8.0.26
 - Docker
@@ -23,72 +23,87 @@ Laravelを使用して制作した勤怠管理アプリです。
 
 ### Dockerビルド
 
-1. git clone git@github.com:  
-2. DockerDesktopアプリを立ち上げる  
-3. 以下のコマンドを実行  
+1. git clone git@github.com:
+2. DockerDesktopアプリを立ち上げる
+3. 以下のコマンドを実行
+
+```bash
 docker-compose up -d --build
+```
 
 ### Laravel環境構築
 
-1. PHPコンテナへ移動  
+1. PHPコンテナへ移動
 
 ```bash
-docker-compose exec php bash  
+docker-compose exec php bash
 ```
 
-2. Composerインストール  
-composer install  
+2. Composerインストール
 
-### データベース設定  
+```bash
+composer install
+```
+
+### データベース設定
 
 .env.exampleを.envに変更。または.envファイルを新しく作成。  
 
 .envに以下の環境変数を追加  
 
-```env  
-DB_CONNECTION=mysql  
-DB_HOST=mysql  
-DB_PORT=3306  
-DB_DATABASE=laravel_db  
-DB_USERNAME=laravel_user  
-DB_PASSWORD=laravel_pass  
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
 ```
 
-### アプリケーションキーの作成  
-php artisan key:generate  
+### アプリケーションキーの作成
 
-### マイグレーション実行  
+```bash
+php artisan key:generate
+```
 
-'''bash  
-php artisan migrate  
+### マイグレーション実行
 
-### Seeder実行  
+```bash
+php artisan migrate
+```
 
-'''bash  
-php artisan db:seed  
+### Seeder実行
 
-## URL  
+```bash
+php artisan db:seed
+```
 
-### アプリケーション  
-http://localhost/  
+## URL
 
-### phpMyAdmin  
-http://localhost:8080  
+### アプリケーション
 
-### MailHog  
-http://localhost:8025  
+http://localhost/
 
-## メール認証設定  
+### phpMyAdmin
 
-MailHogを使用してメール認証を確認します。  
+http://localhost:8080
 
-## ER図  
+## メール認証設定
 
-![alt text](src/kintai-app.png)  
+MailHogを使用してメール認証を確認します。
 
-## 主な機能  
+### MailHog確認画面
 
-### 一般ユーザー  
+http://localhost:8025
+
+
+## ER図
+
+![alt text](src/kintai-app.png)
+
+## 主な機能
+
+### 一般ユーザー
 
 - 会員登録
 - メール認証
@@ -100,7 +115,7 @@ MailHogを使用してメール認証を確認します。
 - 勤怠詳細画面
 - 勤怠修正申請
 
-### 管理者  
+### 管理者
 
 - 管理者ログイン
 - 全ユーザーの勤怠一覧確認
@@ -111,7 +126,7 @@ MailHogを使用してメール認証を確認します。
 - 修正申請の確認・承認
 - CSV出力
 
-## テストアカウント  
+## テストアカウント
 
 ### 一般ユーザー
 
@@ -120,16 +135,16 @@ MailHogを使用してメール認証を確認します。
 
 Factoryにより一般ユーザーのアカウントを10件作成したが、本アプリの動作確認は会員登録ユーザーで行っています。  
 
-### 管理者ユーザー  
+### 管理者ユーザー
 
 メールアドレス：admin@example.com  
 パスワード：password  
 
-## テスト  
+## テスト
 
-PHPUnitを用いて以下のテストを実施  
+PHPUnitを用いて以下のテストを実施
 
-### テスト項目  
+### テスト項目
 
 - 会員登録機能
 - ログイン機能
@@ -147,25 +162,12 @@ PHPUnitを用いて以下のテストを実施
 - スタッフ別勤怠一覧表示機能
 - CSV出力機能
 
-## 工夫した点  
+## 工夫した点
 
-### 複数回の休憩登録に対応したデータ設計  
+### 複数回の休憩登録に対応したデータ設計
 
 休憩時間を勤怠情報とは別テーブルで管理し、  
 一日の勤務に対して複数回の休憩を登録できるようにしました。  
 
 AttendanceテーブルとAttendanceBreakテーブルをリレーションで紐づけることで、  
 柔軟に休憩情報を管理できる設計にしました。  
-
-
-
-
-
-
-
-
-
-
-
-
-
