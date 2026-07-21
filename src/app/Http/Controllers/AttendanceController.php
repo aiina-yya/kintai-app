@@ -20,7 +20,7 @@ class AttendanceController extends Controller
 
         if ($attendance) {
             $attendanceBreak = AttendanceBreak::where('attendance_id', $attendance->id)
-            ->latest()
+            ->latest('id')
             ->first();
             }
 

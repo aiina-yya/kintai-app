@@ -8,6 +8,8 @@ use App\Models\Attendance;
 
 class AttendanceBreak extends Model
 {
+    use HasFactory;
+
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);

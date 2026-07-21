@@ -37,6 +37,8 @@ class AdminController extends Controller
 
     public function attendanceUpdate(AdminAttendanceUpdateRequest $request, $id)
     {
+        $attendance = Attendance::findOrFail($id);
+
         $attendance->update([
             'clock_in' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_in,
             'clock_out' => $attendance->work_date->format('Y-m-d') . ' ' . $request->clock_out,
