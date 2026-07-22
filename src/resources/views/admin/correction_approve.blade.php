@@ -61,7 +61,11 @@
             </div>
 
             <div class="attendance-detail__button">
+                @if($correction->is_approved)
+                <span class="attendance-detail__btn attendance-detail__btn--approved">承認済み</span>
+                @else
                 <button class="attendance-detail__btn" type="submit">承認</button>
+                @endif
             </div>
         </form>
     </div>

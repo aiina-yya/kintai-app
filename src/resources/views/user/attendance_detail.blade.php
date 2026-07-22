@@ -124,14 +124,14 @@
 </div>
             </div>
 
-                <div class="attendance-detail__button">
-                    @if($readonly)
+            <div class="attendance-detail__button">
+                @if($readonly)
 
-                    @if(!$correction->is_approved)
-                    <p class="attendance-detail__pending-message">
+                @if(!$correction->is_approved)
+                <p class="attendance-detail__pending-message">
                         ＊承認待ちのため修正はできません。
-                    </p>
-                    @endif
+                </p>
+                @endif
 
                 @else
 

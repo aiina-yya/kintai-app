@@ -156,6 +156,13 @@ input[type="time"] {
     opacity: 0.9;
 }
 
+.attendance-detail__btn--approved {
+    background-color: #999;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .attendance-detail__pending-message {
     margin-top: 20px;
     text-align: right;

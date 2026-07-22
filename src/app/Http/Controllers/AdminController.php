@@ -188,23 +188,29 @@ class AdminController extends Controller
         ]);
 
         foreach ($correction->breaks as $correctionBreak) {
-            $attendanceBreak = $attendance->breaks()
-            ->where('id', $correctionBreak->attendance_break_id)
-            ->first();
+            if ($correctionBreak->attendance_break_id) {
+                $attendanceBreak = $attendance->breaks()
+                ->where('id', $correctionBreak->attendance_break_id)
+                ->first();
 
-            if($attendanceBreak) {
-                $attendanceBreak->update([
-                    'break_start' => $correctionBreak->requested_break_start,
-                    'break_end' => $correctionBreak->requested_break_end,
-                ]);
+                if($attendanceBreak) {
+                    $attendanceBreak->update([
+                        'break_start' => $correctionBreak->requested_break_start,
+                        'break_end' => $correctionBreak->requested_break_end,
+                    ]);
+                }
+            } else {
+            $attendance->breaks()->create([
+                'break_start' => $correctionBreak->requested_break_start,
+                'break_end' => $correctionBreak->requested_break_end]);
             }
+
+            $correction->update([
+                'is_approved' => true,
+            ]);
+
+            return redirect()
+            ->route('correction.list');
         }
-
-        $correction->update([
-            'is_approved' => true,
-        ]);
-
-        return redirect()
-        ->route('correction.list');
     }
 }
