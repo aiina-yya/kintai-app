@@ -24,7 +24,7 @@ Laravelを使用して制作した勤怠管理アプリです。
 
 ### Dockerビルド
 
-1. git clone git@github.com:
+1. git@github.com:aiina-yya/kintai-app.git
 2. DockerDesktopアプリを立ち上げる
 3. 以下のコマンドを実行
 

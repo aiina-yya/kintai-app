@@ -185,6 +185,7 @@ class AdminController extends Controller
         $attendance->update([
             'clock_in' => $correction->requested_clock_in,
             'clock_out' => $correction->requested_clock_out,
+            'reason' => $correction->reason,
         ]);
 
         foreach ($correction->breaks as $correctionBreak) {
@@ -202,15 +203,28 @@ class AdminController extends Controller
             } else {
             $attendance->breaks()->create([
                 'break_start' => $correctionBreak->requested_break_start,
-                'break_end' => $correctionBreak->requested_break_end]);
+                'break_end' => $correctionBreak->requested_break_end
+                ]);
             }
+        }
 
-            $correction->update([
+        $attendance->load('breaks');
+
+        $totalBreakMinutes = $attendance->breaks->sum(function ($break) {
+            return $break->break_end->diffInMinutes($break->break_start);
+            });
+
+            $workMinutes = $attendance->clock_out->diffInMinutes($attendance->clock_in) - $totalBreakMinutes;
+
+            $attendance->update([
+            'work_minutes' => $workMinutes,
+            ]);
+
+        $correction->update([
                 'is_approved' => true,
             ]);
 
             return redirect()
             ->route('correction.list');
-        }
     }
 }

@@ -53,6 +53,10 @@ class AttendanceCorrectionController extends Controller
         ]);
 
         foreach ($request->break_start as $i => $start) {
+            if (empty($start) && empty($request->break_end[$i])){
+                continue;
+            }
+
             $correctionBreak = AttendanceCorrectionBreak::create([
                 'attendance_correction_id' => $correction->id,
                 'attendance_break_id' => $request->break_ids[$i] ?? null,

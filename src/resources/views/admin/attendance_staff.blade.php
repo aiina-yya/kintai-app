@@ -63,7 +63,12 @@
                         {{ floor($breakMinutes / 60) }}:{{ sprintf('%02d', $breakMinutes % 60) }}
                         </td>
 
-                        <td>{{ $attendance->work_minutes }}</td>
+                        <td>@php
+                            $workMinutes = $attendance->work_minutes ?? 0;
+                            @endphp
+
+                            {{ floor($workMinutes / 60 )}}:{{ sprintf('%02d', $workMinutes % 60) }}
+                        </td>
 
                         <td><a href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a></td>
                     </tr>
