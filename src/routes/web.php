@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendanceCorrectionController;
+use App\Http\Controllers\AdminController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +18,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['auth','verified'])->group(function(){
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+    Route::post('/attendance/clock-in',[AttendanceController::class, 'clockIn'])->name('attendance.clockIn');
+    Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clockOut');
+    Route::post('/attendance/break-start', [AttendanceController::class, 'breakStart'])->name('attendance.breakStart');
+    Route::post('/attendance/break-end', [AttendanceController::class, 'breakEnd'])->name('attendance.breakEnd');
+    Route::get('/attendance/list', [AttendanceController::class, 'attendanceList'])->name('attendance.list');
+    Route::get('/attendance/detail/{attendance}', [AttendanceController::class, 'attendanceDetail'])->name('attendance.detail');
+    Route::post('/attendance/detail/{attendance}', [AttendanceCorrectionController::class, 'store'])->name('attendance.correction');
+});
+
+Route::middleware('guest:admin')
+    ->group(function () {
+
+        Route::get('/admin/login', [AuthenticatedSessionController::class, 'create'])
+            ->name('admin.login');
+
+        Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
+    });
+
+    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'index'])
+    ->middleware('auth.user_or_admin')
+    ->name('correction.list');
+
+Route::middleware('auth:admin')
+    ->group(function (){
+        Route::post('/admin/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+        Route::get('admin/attendance/list', [AdminController::class, 'attendanceList'])->name('admin.attendance.list');
+        Route::get('/admin/attendance/{id}', [AdminController::class, 'attendanceDetail'])->name('admin.attendance.detail');
+        Route::patch('/admin/attendance/{id}', [AdminController::class, 'attendanceUpdate'])->name('admin.attendance.update');
+        Route::get('/admin/staff/list', [AdminController::class, 'staffList'])->name('admin.staff');
+        Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'staffAttendanceList'])->name('admin.attendance.staff');
+        Route::get('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'correctionApproveView'])->name('admin.approve.view');
+        Route::patch('/stamp_correction_request/approve/{attendance_correction_request_id}', [AdminController::class, 'approve'])->name('admin.approve');
+        Route::get('/admin/attendance/staff/{id}/csv', [AdminController::class, 'exportCsv'])->name('admin.attendance.csv');
 });

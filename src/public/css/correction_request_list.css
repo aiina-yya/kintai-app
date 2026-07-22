@@ -1,0 +1,101 @@
+.request-list {
+    background-color: #eeebeb;
+    min-height: 100vh;
+    padding: 50px 0;
+}
+
+.request-list__container {
+    max-width: 900px;
+    width: 100%;
+    padding: 0 20px;
+    margin: 0px auto;
+    box-sizing: border-box;
+}
+
+.request-list__title {
+    margin-bottom: 40px;
+    padding-left: 16px;
+    border-left: 6px solid #000;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.request-list__tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+    font-size: 16px;
+}
+
+.request-list__tab {
+    padding: 12px 24px;
+    color: #737373;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.is-active {
+    color: #000;
+    border-bottom: 2px solid #000;
+}
+
+.request-list__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.request-list__table th,
+.request-list__table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.request-list__table th {
+    color: #737373;
+    font-weight: 600;
+}
+
+.request-list__table td {
+    color: #000;
+}
+
+.request-list__table tr:last-child td {
+    border-bottom: none;
+}
+
+.request-list__table a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.request-list__table a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 850px) {
+
+    .request-list__title {
+        font-size: 24px;
+    }
+
+    .request-list__tabs {
+        font-size: 14px;
+    }
+
+    .request-list__tab {
+        padding: 10px 18px;
+        font-size: 13px;
+    }
+
+    .request-list__table th,
+    .request-list__table td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+}

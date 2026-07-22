@@ -1,0 +1,73 @@
+.staff-list {
+    background-color: #eeebeb;
+    min-height: 100vh;
+    padding: 50px 0;
+}
+
+.staff-list__container {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.staff-list__title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-left: 16px;
+    border-left: 6px solid #000;
+}
+
+.staff-list__content {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.staff-list__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.staff-list__table th {
+    padding: 15px;
+    border-bottom: 2px solid #e5e5e5;
+    text-align: center;
+    color: #737373;
+}
+
+.staff-list__table td {
+    padding: 15px;
+    border-bottom: 2px solid #eeeeee;
+    text-align: center;
+    color: #737373;
+}
+
+.staff-list__table a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+@media (max-width:850px) {
+
+    .staff-list__title {
+        font-size: 24px;
+    }
+
+    .staff-list__header {
+        padding: 16px;
+    }
+
+    .staff-list__month {
+        font-size: 18px;
+    }
+
+    .staff-list__table th,
+    .staff-list__table td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+}
