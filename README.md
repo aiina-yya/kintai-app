@@ -130,20 +130,19 @@ http://localhost:8025
 
 ### 一般ユーザー
 
-- ユーザー１
+- User１
 メールアドレス：user1@example.com  
 パスワード：password  
-- ユーザー2
+- User2
 メールアドレス：user2@example.com  
 パスワード：password  
+- Factory生成ユーザー
 
-
-Factoryにより一般ユーザーのアカウントを10件作成したが、本アプリの動作確認は会員登録ユーザーで行っています。
 
 ### 管理者ユーザー
 
 メールアドレス：user3@example.com  
-パスワード：password
+パスワード：password  
 
 ## テスト
 
