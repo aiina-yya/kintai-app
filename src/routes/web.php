@@ -28,6 +28,7 @@ Route::middleware(['auth','verified'])->group(function(){
     Route::get('/attendance/list', [AttendanceController::class, 'attendanceList'])->name('attendance.list');
     Route::get('/attendance/detail/{attendance}', [AttendanceController::class, 'attendanceDetail'])->name('attendance.detail');
     Route::post('/attendance/detail/{attendance}', [AttendanceCorrectionController::class, 'store'])->name('attendance.correction');
+    Route::get('/attendance/report', [AttendanceController::class, 'report'])->name('attendance.report');
 });
 
 Route::middleware('guest:admin')
