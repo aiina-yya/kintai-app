@@ -89,9 +89,29 @@ http://localhost/
 
 http://localhost:8080
 
-## メール認証設定
+## メール認証機能の設定について
 
-MailHogを使用してメール認証を確認します。
+MailHogを使用してメール認証を確認します。  
+メール認証機能を利用するには、.env にメール送信設定を行う必要があります。  
+
+本アプリではローカル環境でのメール確認に MailHog を使用しています。  
+
+以下の設定例を .env に記載してください。  
+
+MAIL_MAILER=smtp  
+MAIL_HOST=mailhog  
+MAIL_PORT=1025  
+MAIL_USERNAME=null  
+MAIL_PASSWORD=null  
+MAIL_ENCRYPTION=null  
+MAIL_FROM_ADDRESS=test@example.com  
+MAIL_FROM_NAME="${APP_NAME}"  
+
+設定が不足している場合、メール送信時に以下のエラーが発生する可能性があります。  
+
+Cannot send message without a sender address  
+
+メール認証の動作確認を行う場合は、MailHog を起動した状態でユーザー登録を行い、受信した認証メールから認証処理を実行してください。  
 
 ### MailHog確認画面
 
