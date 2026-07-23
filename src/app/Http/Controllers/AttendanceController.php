@@ -171,4 +171,10 @@ class AttendanceController extends Controller
 
         return view('user.attendance_detail', compact('attendance','readonly', 'correction'));
     }
+
+    public function report()
+    {
+        return view('user.attendance_report');
+
+    }
 }

@@ -17,6 +17,8 @@
                 <li>
                     <a href="{{ route('correction.list') }}">申請</a>
                 </li>
+                <li><a href="{{ route('attendance.report') }}">レポート</a>
+                </li>
                 <li>
                     <form action="{{ route('logout') }}" method="post">
                     @csrf
